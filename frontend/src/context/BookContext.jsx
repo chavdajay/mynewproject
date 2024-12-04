@@ -28,13 +28,21 @@ export const BookProvider = ({ children }) => {
       const response = await axios.post(`${process.env.REACT_APP_API_URL}books`, book, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setBooks((prevBooks) => [...prevBooks, response.data]); // Update context state
+      
+      // Check if prevBooks is an array before trying to spread it
+      setBooks((prevBooks) => {
+        if (Array.isArray(prevBooks)) {
+          return [...prevBooks, response.data]; // Update context state if prevBooks is an array
+        } else {
+          // console.error('prevBooks is not an array');
+          return [response.data]; // Return an array with the new book if prevBooks is not an array
+        }
+      });
     } catch (error) {
-        console.log(error)
       console.error('Error adding book:', error.message);
-
     }
   };
+  
 
   return (
     <BookContext.Provider value={{ books, fetchBooks, addBook }}>

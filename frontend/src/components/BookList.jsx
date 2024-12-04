@@ -1,27 +1,38 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useBookContext } from "../context/BookContext";
 
 const BookList = () => {
-    // Extracting books data and fetchBooks function from context
     const { books, fetchBooks } = useBookContext();
+    const navigate = useNavigate();
 
-    /**
-     * Fetch books when the component mounts
-     * Ensures the latest book list is displayed
-     */
     useEffect(() => {
         fetchBooks();
     }, [fetchBooks]);
 
+    // Safely access books.data, or use an empty array if it's undefined
+    const bookList = Array.isArray(books?.data) ? books.data : [];
+
+    const handleLogout = () => {
+        // Remove the token from localStorage
+        localStorage.removeItem("token");
+        // Redirect to the login page
+        navigate("/login");
+    };
+
     return (
         <div className="container mt-5">
-            {/* Header with Add Book button */}
+            {/* Header with Add Book button and Logout button */}
             <div className="d-flex justify-content-between align-items-center mb-3">
                 <h3>Books List</h3>
-                <Link to="/add-book" className="btn btn-primary">
-                    Add Book
-                </Link>
+                <div>
+                    <button onClick={handleLogout} className="btn btn-danger">
+                        Logout
+                    </button>
+                    <Link to="/add-book" className="btn btn-primary ml-2">
+                        Add Book
+                    </Link>
+                </div>
             </div>
 
             {/* Books table */}
@@ -35,8 +46,7 @@ const BookList = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {/* Show a message if no books are available */}
-                        {books.length === 0 ? (
+                        {bookList.length === 0 ? (
                             <tr>
                                 <td colSpan="3" className="text-center">
                                     No books found.
@@ -44,7 +54,7 @@ const BookList = () => {
                             </tr>
                         ) : (
                             // Map over the books array to display each book
-                            books.map((book, index) => (
+                            bookList.map((book, index) => (
                                 <tr key={book._id}>
                                     <td>{index + 1}</td>
                                     <td>{book.title}</td>
