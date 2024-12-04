@@ -15,20 +15,17 @@ const signup = async (req, res) => {
     // Check if the user already exists
     const existingUser = await UserModel.findOne({ email });
     if (existingUser) {
-      console.log("User already exists:", email);
       return sendError(res, "User already exists, you can login", 409);
   
     }
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
-    console.log("Password hashed successfully");
 
     // Save the new user
     const newUser = new UserModel({ email, password: hashedPassword });
     await newUser.save();
 
-    console.log("User created successfully:", newUser);
     return sendSuccess(res, "Register successfully", newUser);
 
   } catch (err) {

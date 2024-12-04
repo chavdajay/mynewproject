@@ -11,10 +11,7 @@ export const AuthProvider = ({ children }) => {
     isAuthenticated: !!localStorage.getItem('token'), // Convert token to boolean (true if exists)
   });
 
-  /**
-   * Login function to authenticate user and save token to localStorage
-   * @param {string} token - The authentication token received after successful login
-   */
+ 
   const login = (token) => {
     localStorage.setItem('token', token); // Store token in localStorage
     setAuth({ token, isAuthenticated: true }); // Update auth state

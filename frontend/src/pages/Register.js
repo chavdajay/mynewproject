@@ -3,9 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { handleError, handleSuccess } from '../utils';
 
-const Signup = () => {
-    const [signupInfo, setSignupInfo] = useState({ email: '', password: '', confirmPassword: '' });
+const Register = () => {
     const navigate = useNavigate();
+    const [signupInfo, setSignupInfo] = useState({ email: '', password: '', confirmPassword: '' });
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -16,11 +16,11 @@ const Signup = () => {
         e.preventDefault();
         const { email, password, confirmPassword } = signupInfo;
 
-        // Validation
+        // Validation email, password, and confirmpassword required
         if (!email || !password || !confirmPassword) {
             return handleError('All fields are required');
         }
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;//email validation
         if (!emailRegex.test(email)) {
             return handleError('Please enter a valid email address');
         }
@@ -30,7 +30,6 @@ const Signup = () => {
         if (password !== confirmPassword) {
             return handleError('Passwords do not match');
         }
-        console.log(process.env.REACT_APP_API_URL);
 
         try {
             const url = `${process.env.REACT_APP_API_URL}register`;
@@ -41,12 +40,12 @@ const Signup = () => {
             });
 
             const results = await response.json();
-            console.log(results);
             const { status, message, error } = results;
 
             if (status === "success") {
                 handleSuccess(message);
-                setTimeout(() => navigate('/login'), 1000);
+                navigate('/login')
+                
             } else {
                 handleError(error?.details[0]?.message || message);
             }
@@ -106,4 +105,4 @@ const Signup = () => {
     );
 };
 
-export default Signup;
+export default Register;

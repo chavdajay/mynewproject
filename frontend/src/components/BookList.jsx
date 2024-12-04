@@ -3,14 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { useBookContext } from "../context/BookContext";
 
 const BookList = () => {
-    const { books, fetchBooks } = useBookContext();
     const navigate = useNavigate();
+    const { books, fetchBooks } = useBookContext();
 
     useEffect(() => {
         fetchBooks();
     }, [fetchBooks]);
 
-    // Safely access books.data, or use an empty array if it's undefined
+   
     const bookList = Array.isArray(books?.data) ? books.data : [];
 
     const handleLogout = () => {
@@ -22,7 +22,6 @@ const BookList = () => {
 
     return (
         <div className="container mt-5">
-            {/* Header with Add Book button and Logout button */}
             <div className="d-flex justify-content-between align-items-center mb-3">
                 <h3>Books List</h3>
                 <div>
@@ -35,7 +34,6 @@ const BookList = () => {
                 </div>
             </div>
 
-            {/* Books table */}
             <div className="table-responsive">
                 <table className="table table-striped table-bordered">
                     <thead className="table-dark">

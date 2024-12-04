@@ -1,5 +1,3 @@
-// utils/responseHandler.js
-
 const sendResponse = (res, statusCode, status, message, data = null) => {
     const response = {
       data,

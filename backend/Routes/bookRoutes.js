@@ -4,10 +4,7 @@ const authenticate = require('../Middlewares/authenticate');
 
 const router = express.Router();
 
-// Create a book (Protected Route)
 router.post('/', authenticate, create);
-
-// Get all books (Protected Route)
 router.get('/', authenticate, getAll);
 
 module.exports = router;

@@ -34,7 +34,6 @@ export const BookProvider = ({ children }) => {
         if (Array.isArray(prevBooks)) {
           return [...prevBooks, response.data]; // Update context state if prevBooks is an array
         } else {
-          // console.error('prevBooks is not an array');
           return [response.data]; // Return an array with the new book if prevBooks is not an array
         }
       });

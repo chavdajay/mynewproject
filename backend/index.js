@@ -1,4 +1,3 @@
-// Import required modules
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser'); // For parsing incoming JSON request bodies
@@ -19,18 +18,10 @@ const PORT = process.env.PORT || 8080;
 app.use(bodyParser.json()); // Parses incoming JSON requests and makes them available in req.body
 app.use(cors()); // Enables secure resource sharing between client and server
 
-// Define application routes
-/**
- * Authentication routes: Handles login, registration, and related authentication endpoints
- */
 app.use('/', AuthRouter);
-
-/**
- * Book routes: Handles CRUD operations for books
- */
 app.use('/books', BookRouter);
 
 // Start the server
 app.listen(PORT, () => {
-    console.log(`Server is running on ${PORT}`); // Log the port where the server is running
+    console.log(`Server is running on ${PORT}`); 
 });
